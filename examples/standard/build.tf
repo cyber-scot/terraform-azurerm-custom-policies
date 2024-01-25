@@ -5,6 +5,7 @@ module "policies" {
   role_restriction_policy = {
     deploy_assignment = true
     effect            = "Deny"
+
     standard_role_definition_restricted_principal_types = [
       "User",
       "Group"
