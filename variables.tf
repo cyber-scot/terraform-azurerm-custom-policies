@@ -11,7 +11,7 @@ variable "policy_prefix" {
 }
 
 variable "role_restriction_policy" {
-  description = "Configuration for the role restriction policy, including the management group ID and whether to deploy the policy assignment."
+  description = "Configuration for the role restriction policy, this policy allows you to restrict specific role definition IDs to specific principal types, in the event you would like users to have different access to other things like Managed Identities (normally used in automation)"
   type = object({
     name                                                  = optional(string, "restrict-roles-for-principal-type")
     management_group_id                                   = optional(string)
