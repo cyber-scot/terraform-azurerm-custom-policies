@@ -9,7 +9,7 @@ resource "azurerm_policy_definition" "role_restriction_policy" {
   policy_type         = "Custom"
   mode                = "All"
   display_name        = "${var.policy_prefix} - Definition - Allowed Roles Based on Principal Type"
-  description         = var.role_restriction_policy.description != null ? var.role_restriction_policy.description : "This policy allows specific roles for Service Principals, Enterprise Apps, or Managed Identities, and other roles for Users or Groups."
+  description         = var.role_restriction_policy.description != null ? var.role_restriction_policy.description : "This policy allows specific roles for specific principalTypes, which allows the administrator to allow greater access for, for example, Managed Identities used in automation, but deny similar access to users"
   management_group_id = var.role_restriction_policy.management_group_id != null ? var.role_restriction_policy.management_group_id : (var.attempt_read_tenant_root_group ? data.azurerm_management_group.tenant_root_group[0].id : null)
 
   metadata = jsonencode({
@@ -105,7 +105,7 @@ resource "azurerm_management_group_policy_assignment" "role_restriction_assignme
   description          = var.role_restriction_policy.description != null ? var.role_restriction_policy.description : "This policy allows specific roles for Service Principals, Enterprise Apps, or Managed Identities, and other roles for Users or Groups."
 
   non_compliance_message {
-    content = var.role_restriction_policy.non_compliance_message != null ? var.role_restriction_policy.non_compliance_message : "Error: The role you have tried to deploy has been restricted by ${var.policy_prefix} - Allowed Roles Based on Principal Type policy. Please contact your administrator for assistance."
+    content = var.role_restriction_policy.non_compliance_message != null ? var.role_restriction_policy.non_compliance_message : "PlatformPolicyInfo: The role you have tried to deploy has been restricted by ${azurerm_policy_definition.role_restriction_policy.display_name} policy. Please contact your administrator for assistance."
   }
 
   parameters = jsonencode({
