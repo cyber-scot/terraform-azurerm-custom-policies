@@ -74,7 +74,7 @@ locals {
 
 resource "azurerm_management_group_policy_assignment" "privileged_role_restriction_assignment" {
   count                = var.privileged_role_restriction_policy.deploy_assignment ? 1 : 0
-  name                 = local.privileged_role_restriction_name_hash
+  name                 = azurerm_policy_definition.privileged_role_restriction_policy.name
   management_group_id  = var.privileged_role_restriction_policy.management_group_id != null ? var.privileged_role_restriction_policy.management_group_id : (var.attempt_read_tenant_root_group ? data.azurerm_management_group.tenant_root_group[0].id : null)
   policy_definition_id = azurerm_policy_definition.privileged_role_restriction_policy.id
   enforce              = var.privileged_role_restriction_policy.enforce != null ? var.privileged_role_restriction_policy.enforce : true

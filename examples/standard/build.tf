@@ -26,7 +26,22 @@ module "policies" {
     ]
     privileged_role_definition_ids = [
       "/providers/Microsoft.Authorization/roleDefinitions/18d7d88d-d35e-4fb5-a5c3-7773c20a72d9", # User Access Administrator
+    ]
+  }
 
+  mandatory_resource_tagging_policy = {
+    deploy_assignment = true
+    effect            = "Deny"
+
+    required_tags = [
+      {
+        key   = "CostCentre"
+        value = "#####"
+      },
+      {
+        key   = "ResourceOwner"
+        value = "*@cyber.scot"
+      }
     ]
   }
 
