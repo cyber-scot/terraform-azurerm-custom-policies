@@ -35,11 +35,11 @@ module "policies" {
 
     required_tags = [
       {
-        key   = "CostCentre"
+        key     = "CostCentre"
         pattern = "#####"
       },
       {
-        key   = "ResourceOwner"
+        key     = "ResourceOwner"
         pattern = "*@cyber.scot"
       }
     ]
@@ -51,11 +51,11 @@ module "policies" {
 
     required_tags = [
       {
-        key   = "CostCentre"
+        key     = "CostCentre"
         pattern = "#####"
       },
       {
-        key   = "ResourceOwner"
+        key     = "ResourceOwner"
         pattern = "*@cyber.scot"
       }
     ]

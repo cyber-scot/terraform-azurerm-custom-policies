@@ -1,8 +1,8 @@
 locals {
   like_mandatory_resource_tag_name_prefix = var.like_mandatory_resource_tagging_policy.name
   like_mandatory_resource_tag_name_hash   = substr(md5(local.like_mandatory_resource_tag_name_prefix), 0, 4)
-  
-    like_mandatory_non_compliance_messages = [for tag in var.like_mandatory_resource_tagging_policy.required_tags :
+
+  like_mandatory_non_compliance_messages = [for tag in var.like_mandatory_resource_tagging_policy.required_tags :
     format("PlatformPolicyInfo: The resource you have tried to deploy is restricted by mandatory like-pattern tagging policy. %s does is not like the pattern %s. Please ensure all mandatory tags are provided. Contact your administrator for assistance.", tag.key, tag.pattern)
   ]
 
@@ -12,8 +12,8 @@ locals {
     "if" = {
       "allOf" = [for tag in var.like_mandatory_resource_tagging_policy.required_tags : {
         not = {
-          "field"  = "tags['${tag.key}']",
-          "like" = tag.pattern
+          "field" = "tags['${tag.key}']",
+          "like"  = tag.pattern
         }
       }]
     },
@@ -27,7 +27,7 @@ resource "azurerm_policy_definition" "like_mandatory_resource_tagging_policy" {
   name                = local.like_mandatory_resource_tag_name_hash
   policy_type         = "Custom"
   mode                = "Indexed"
-  display_name       = "${var.policy_prefix}  - Mandatory Tags"
+  display_name        = "${var.policy_prefix}  - Mandatory Tags"
   description         = "This policy enforces mandatory tags on resources with a like pattern."
   management_group_id = var.like_mandatory_resource_tagging_policy.management_group_id != null ? var.like_mandatory_resource_tagging_policy.management_group_id : (var.attempt_read_tenant_root_group ? data.azurerm_management_group.tenant_root_group[0].id : null)
 

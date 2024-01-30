@@ -4,22 +4,6 @@ variable "attempt_read_tenant_root_group" {
   description = "Whether the module should attempt to read the tenant root group, your SPN may not have permissions"
 }
 
-variable "match_mandatory_resource_tagging_policy" {
-  description = "Configuration for the mandatory resource tagging policy for the match pattern"
-  type = object({
-    name                   = optional(string, "match-mandatory-tags")
-    management_group_id    = optional(string)
-    enforce                = optional(bool, true)
-    non_compliance_message = optional(string)
-    description            = optional(string)
-    effect                 = optional(string, "Audit")
-    required_tags = list(object({
-      key   = string
-      pattern = string
-    }))
-  })
-}
-
 variable "like_mandatory_resource_tagging_policy" {
   description = "Configuration for the mandatory resource tagging policy for the like"
   type = object({
@@ -30,7 +14,23 @@ variable "like_mandatory_resource_tagging_policy" {
     description            = optional(string)
     effect                 = optional(string, "Audit")
     required_tags = list(object({
-      key   = string
+      key     = string
+      pattern = string
+    }))
+  })
+}
+
+variable "match_mandatory_resource_tagging_policy" {
+  description = "Configuration for the mandatory resource tagging policy for the match pattern"
+  type = object({
+    name                   = optional(string, "match-mandatory-tags")
+    management_group_id    = optional(string)
+    enforce                = optional(bool, true)
+    non_compliance_message = optional(string)
+    description            = optional(string)
+    effect                 = optional(string, "Audit")
+    required_tags = list(object({
+      key     = string
       pattern = string
     }))
   })
