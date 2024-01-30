@@ -2,6 +2,12 @@ locals {
   match_mandatory_resource_tag_name_prefix = var.match_mandatory_resource_tagging_policy.name
   match_mandatory_resource_tag_name_hash   = substr(md5(local.match_mandatory_resource_tag_name_prefix), 0, 4)
 
+  match_mandatory_non_compliance_messages = [for tag in var.match_mandatory_resource_tagging_policy.required_tags :
+    format("PlatformPolicyInfo: The resource you have tried to deploy is restricted by mandatory match-pattern tagging policy. %s does not match the pattern %s. Please ensure all mandatory tags are provided. Contact your administrator for assistance.", tag.key, tag.pattern)
+  ]
+
+  match_mandatory_combined_non_compliance_message = join(" or ", local.match_mandatory_non_compliance_messages)
+
   match_mandatory_policy_rule = {
     "if" = {
       "allOf" = [for tag in var.match_mandatory_resource_tagging_policy.required_tags : {
@@ -54,7 +60,7 @@ resource "azurerm_management_group_policy_assignment" "match_mandatory_resource_
   description          = "This policy assignment enforces mandatory tagging with a match pattern."
 
   non_compliance_message {
-    content = var.match_mandatory_resource_tagging_policy.non_compliance_message != null ? var.match_mandatory_resource_tagging_policy.non_compliance_message : "PlatformPolicyInfo: The resource you have tried to deploy is restricted by mandatory tagging policy. Please ensure all mandatory tags are provided. Contact your administrator for assistance."
+    content = var.match_mandatory_resource_tagging_policy.non_compliance_message != null ? var.match_mandatory_resource_tagging_policy.non_compliance_message : local.match_mandatory_combined_non_compliance_message
   }
 
   parameters = jsonencode({
