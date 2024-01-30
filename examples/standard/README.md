@@ -1,6 +1,6 @@
 ```hcl
-module "policies" {
-  source = "../../"
+module "custom_policies" {
+  source = "cyber-scot/custom-policies/azurerm"
 
 
   non_privileged_role_restriction_policy = {
@@ -80,7 +80,7 @@ No requirements.
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_policies"></a> [policies](#module\_policies) | ../../ | n/a |
+| <a name="module_custom_policies"></a> [custom\_policies](#module\_custom\_policies) | cyber-scot/custom-policies/azurerm | n/a |
 
 ## Resources
 

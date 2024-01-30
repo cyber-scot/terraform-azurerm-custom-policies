@@ -1,5 +1,5 @@
-module "policies" {
-  source = "../../"
+module "custom_policies" {
+  source = "cyber-scot/custom-policies/azurerm"
 
 
   non_privileged_role_restriction_policy = {
