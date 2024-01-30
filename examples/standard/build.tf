@@ -29,18 +29,34 @@ module "policies" {
     ]
   }
 
-  mandatory_resource_tagging_policy = {
+  match_mandatory_resource_tagging_policy = {
     deploy_assignment = true
     effect            = "Deny"
 
     required_tags = [
       {
         key   = "CostCentre"
-        value = "#####"
+        pattern = "#####"
       },
       {
         key   = "ResourceOwner"
-        value = "*@cyber.scot"
+        pattern = "*@cyber.scot"
+      }
+    ]
+  }
+
+  like_mandatory_resource_tagging_policy = {
+    deploy_assignment = true
+    effect            = "Deny"
+
+    required_tags = [
+      {
+        key   = "CostCentre"
+        pattern = "#####"
+      },
+      {
+        key   = "ResourceOwner"
+        pattern = "*@cyber.scot"
       }
     ]
   }
