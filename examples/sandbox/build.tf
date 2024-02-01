@@ -1,5 +1,5 @@
 module "custom_policies" {
-  source = "cyber-scot/custom-policies/azurerm"
+  source = "../../"
 
 
   non_privileged_role_restriction_policy = {
@@ -61,6 +61,8 @@ module "custom_policies" {
     ]
   }
 
-
-
+  default_deny_nsg_rule_policy = {
+    deploy_assignment = true
+    effect            = "Append"
+  }
 }
