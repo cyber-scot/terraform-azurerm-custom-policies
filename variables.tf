@@ -4,6 +4,26 @@ variable "attempt_read_tenant_root_group" {
   description = "Whether the module should attempt to read the tenant root group, your SPN may not have permissions"
 }
 
+variable "default_deny_nsg_rule_policy" {
+  description = "Configuration for default deny NSG rule deployment policy"
+  type = object({
+    name                         = optional(string, "nsg-default-deny")
+    management_group_id          = optional(string)
+    enforce                      = optional(bool, true)
+    non_compliance_message       = optional(string)
+    description                  = optional(string)
+    effect                       = optional(string, "Append")
+    protocol                     = optional(string, "Tcp")
+    access                       = optional(string, "Deny")
+    priority                     = optional(string, "4096")
+    direction                    = optional(string, "Inbound")
+    source_port_ranges           = optional(string, "*")
+    destination_port_ranges      = optional(string, "*")
+    source_address_prefixes      = optional(string, "*")
+    destination_address_prefixes = optional(string, "*")
+  })
+}
+
 variable "like_mandatory_resource_tagging_policy" {
   description = "Configuration for the mandatory resource tagging policy for the like"
   type = object({
