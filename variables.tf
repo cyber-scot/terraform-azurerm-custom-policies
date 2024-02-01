@@ -7,9 +7,8 @@ variable "attempt_read_tenant_root_group" {
 variable "default_deny_nsg_rule_policy" {
   description = "Configuration for default deny NSG rule deployment policy"
   type = object({
-    name              = optional(string, "nsg-default-deny")
-    deploy_assignment = optional(bool, true)
-
+    name                         = optional(string, "nsg-default-deny")
+    deploy_assignment            = optional(bool, true)
     management_group_id          = optional(string)
     enforce                      = optional(bool, true)
     non_compliance_message       = optional(string)
@@ -29,9 +28,8 @@ variable "default_deny_nsg_rule_policy" {
 variable "like_mandatory_resource_tagging_policy" {
   description = "Configuration for the mandatory resource tagging policy for the like"
   type = object({
-    name              = optional(string, "like-mandatory-tags")
-    deploy_assignment = optional(bool, true)
-
+    name                   = optional(string, "like-mandatory-tags")
+    deploy_assignment      = optional(bool, true)
     management_group_id    = optional(string)
     enforce                = optional(bool, true)
     non_compliance_message = optional(string)
@@ -47,9 +45,8 @@ variable "like_mandatory_resource_tagging_policy" {
 variable "match_mandatory_resource_tagging_policy" {
   description = "Configuration for the mandatory resource tagging policy for the match pattern"
   type = object({
-    name              = optional(string, "match-mandatory-tags")
-    deploy_assignment = optional(bool, true)
-
+    name                   = optional(string, "match-mandatory-tags")
+    deploy_assignment      = optional(bool, true)
     management_group_id    = optional(string)
     enforce                = optional(bool, true)
     non_compliance_message = optional(string)
