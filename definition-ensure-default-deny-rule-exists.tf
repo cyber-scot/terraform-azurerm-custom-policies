@@ -155,7 +155,6 @@ resource "azurerm_management_group_policy_assignment" "default_deny_nsg_rule_ass
     "destinationAddressPrefixes" = {
       "value" = var.default_deny_nsg_rule_policy.destination_address_prefixes
     }
-
     "effect" = {
       "value" = var.default_deny_nsg_rule_policy.effect
     }
