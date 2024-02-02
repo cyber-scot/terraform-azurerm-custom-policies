@@ -129,7 +129,7 @@ resource "azurerm_management_group_policy_assignment" "default_deny_nsg_rule_ass
 
   parameters = jsonencode({
     "name" = {
-      "value" = var.default_deny_nsg_rule_policy.name
+      "value" = var.default_deny_nsg_rule_policy.nsg_rule_name
     }
     "protocol" = {
       "value" = var.default_deny_nsg_rule_policy.protocol

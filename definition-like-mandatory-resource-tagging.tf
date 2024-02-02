@@ -3,7 +3,7 @@ locals {
   like_mandatory_resource_tag_name_hash   = substr(md5(local.like_mandatory_resource_tag_name_prefix), 0, 4)
 
   like_mandatory_non_compliance_messages = [for tag in var.like_mandatory_resource_tagging_policy.required_tags :
-    format("PlatformPolicyInfo: The resource you have tried to deploy is restricted by mandatory like-pattern tagging policy. %s does is not like the pattern %s. Please ensure all mandatory tags are provided. Contact your administrator for assistance.", tag.key, tag.pattern)
+    format("PlatformPolicyInfo: The resource you have tried to deploy is restricted by mandatory like-pattern tagging policy. %s does is not like the pattern. Please ensure all mandatory tags are provided. Contact your administrator for assistance.", tag.key)
   ]
 
   like_mandatory_combined_non_compliance_message = join(" or ", local.like_mandatory_non_compliance_messages)
