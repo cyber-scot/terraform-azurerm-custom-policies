@@ -1,7 +1,7 @@
 variable "append_default_deny_nsg_rule_policy" {
   description = "Configuration for append deny NSG rule deployment policy"
   type = object({
-    name                         = optional(string, "append-nsg-default-deny")
+    name                         = optional(string, "append-nsg-default-deny1")
     deploy_assignment            = optional(bool, true)
     nsg_rule_name                = optional(string, "DenyAnyInbound")
     management_group_id          = optional(string)
@@ -40,6 +40,30 @@ variable "default_deny_nsg_rule_policy" {
     effect                       = optional(string, "Append")
     protocol                     = optional(string, "*")
     access                       = optional(string, "Deny")
+    priority                     = optional(string, "4096")
+    direction                    = optional(string, "Inbound")
+    source_port_ranges           = optional(list(string), ["*"])
+    destination_port_ranges      = optional(list(string), ["*"])
+    source_address_prefixes      = optional(list(string), ["*"])
+    destination_address_prefixes = optional(list(string), ["*"])
+  })
+}
+
+variable "deploy_default_deny_nsg_rule_policy" {
+  description = "Configuration for DeployIfNotExists deny NSG rule deployment policy"
+  type = object({
+    name                         = optional(string, "append-nsg-default-deny1")
+    deploy_assignment            = optional(bool, true)
+    nsg_rule_name                = optional(string, "DenyAnyInbound")
+    nsg_rule_description         = optional(string)
+    management_group_id          = optional(string)
+    enforce                      = optional(bool, true)
+    non_compliance_message       = optional(string)
+    description                  = optional(string)
+    effect                       = optional(string, "Append")
+    protocol                     = optional(string, "*")
+    access                       = optional(string, "Deny")
+    name_suffix                  = optional(string, "*")
     priority                     = optional(string, "4096")
     direction                    = optional(string, "Inbound")
     source_port_ranges           = optional(list(string), ["*"])
