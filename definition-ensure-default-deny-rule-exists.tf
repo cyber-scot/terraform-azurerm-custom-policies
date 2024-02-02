@@ -124,7 +124,7 @@ resource "azurerm_management_group_policy_assignment" "default_deny_nsg_rule_ass
   description          = var.default_deny_nsg_rule_policy.description != null ? var.default_deny_nsg_rule_policy.description : "This policy allows specific roles for ${local.privileged_principal_types_as_string}."
 
   non_compliance_message {
-    content = var.default_deny_nsg_rule_policy.non_compliance_message != null ? var.default_deny_nsg_rule_policy.non_compliance_message : "PlatformPolicyInfo: The role you have tried to deploy has been restricted by ${azurerm_policy_definition.default_deny_nsg_rule_policy.display_name} policy. This role only allows specific roles for ${local.privileged_principal_types_as_string} Please contact your administrator for assistance."
+    content = var.default_deny_nsg_rule_policy.non_compliance_message != null ? var.default_deny_nsg_rule_policy.non_compliance_message : "PlatformPolicyInfo: The role you have tried to deploy has been restricted by ${azurerm_policy_definition.default_deny_nsg_rule_policy.display_name} policy. This policy ensures an NSG rule is deployed. Please contact your administrator for assistance."
   }
 
   parameters = jsonencode({
@@ -145,6 +145,15 @@ resource "azurerm_management_group_policy_assignment" "default_deny_nsg_rule_ass
     }
     "sourcePortRanges" = {
       "value" = var.default_deny_nsg_rule_policy.source_port_ranges
+    }
+    "destinationPortRanges" = {
+      "value" = var.default_deny_nsg_rule_policy.destination_port_ranges
+    }
+    "sourceAddressPrefixes" = {
+      "value" = var.default_deny_nsg_rule_policy.source_address_prefixes
+    }
+    "destinationAddressPrefixes" = {
+      "value" = var.default_deny_nsg_rule_policy.destination_address_prefixes
     }
 
     "effect" = {

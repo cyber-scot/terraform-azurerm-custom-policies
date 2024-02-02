@@ -18,10 +18,10 @@ variable "default_deny_nsg_rule_policy" {
     access                       = optional(string, "Deny")
     priority                     = optional(string, "4096")
     direction                    = optional(string, "Inbound")
-    source_port_ranges           = optional(string, "*")
-    destination_port_ranges      = optional(string, "*")
-    source_address_prefixes      = optional(string, "*")
-    destination_address_prefixes = optional(string, "*")
+    source_port_ranges           = optional(list(string), ["*"])
+    destination_port_ranges      = optional(list(string), ["*"])
+    source_address_prefixes      = optional(list(string), ["*"])
+    destination_address_prefixes = optional(list(string), ["*"])
   })
 }
 
