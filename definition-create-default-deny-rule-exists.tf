@@ -1,16 +1,16 @@
 #locals {
-#  default_deny_nsg_rule_name_prefix = var.default_deny_nsg_rule_policy.name
-#  default_deny_nsg_rule_name_hash   = substr(md5(local.default_deny_nsg_rule_name_prefix), 0, 12)
+#  create_default_deny_nsg_rule_name_prefix = var.create_default_deny_nsg_rule_policy.name
+#  create_default_deny_nsg_rule_name_hash   = substr(md5(local.create_default_deny_nsg_rule_name_prefix), 0, 12)
 #}
 #
 #
-#resource "azurerm_policy_definition" "default_deny_nsg_rule_policy" {
-#  name                = local.default_deny_nsg_rule_name_hash
+#resource "azurerm_policy_definition" "create_default_deny_nsg_rule_policy" {
+#  name                = local.create_default_deny_nsg_rule_name_hash
 #  policy_type         = "Custom"
 #  mode                = "All"
-#  display_name        = "${var.policy_prefix} - Ensure Default Deny NSG Rule exists"
-#  description         = var.default_deny_nsg_rule_policy.description != null ? var.default_deny_nsg_rule_policy.description : "This policy allows specific roles for specific principalTypes, appends the a default rule to all NSGs in the scope.  This only works during creation and update."
-#  management_group_id = var.default_deny_nsg_rule_policy.management_group_id != null ? var.default_deny_nsg_rule_policy.management_group_id : (var.attempt_read_tenant_root_group ? data.azurerm_management_group.tenant_root_group[0].id : null)
+#  display_name        = "${var.policy_prefix} - Create Default Deny NSG Rule exists"
+#  description         = var.create_default_deny_nsg_rule_policy.description != null ? var.create_default_deny_nsg_rule_policy.description : "This policy allows specific roles for specific principalTypes, appends the a default rule to all NSGs in the scope.  This only works during creation and update."
+#  management_group_id = var.create_default_deny_nsg_rule_policy.management_group_id != null ? var.create_default_deny_nsg_rule_policy.management_group_id : (var.attempt_read_tenant_root_group ? data.azurerm_management_group.tenant_root_group[0].id : null)
 #
 #  metadata = jsonencode({
 #    version  = "1.0.0",
@@ -114,49 +114,49 @@
 #}
 #
 #
-#resource "azurerm_management_group_policy_assignment" "default_deny_nsg_rule_assignment" {
-#  count                = var.default_deny_nsg_rule_policy.deploy_assignment ? 1 : 0
-#  name                 = azurerm_policy_definition.default_deny_nsg_rule_policy.name
-#  management_group_id  = var.default_deny_nsg_rule_policy.management_group_id != null ? var.default_deny_nsg_rule_policy.management_group_id : (var.attempt_read_tenant_root_group ? data.azurerm_management_group.tenant_root_group[0].id : null)
-#  policy_definition_id = azurerm_policy_definition.default_deny_nsg_rule_policy.id
-#  enforce              = var.default_deny_nsg_rule_policy.enforce != null ? var.default_deny_nsg_rule_policy.enforce : true
-#  display_name         = azurerm_policy_definition.default_deny_nsg_rule_policy.display_name
-#  description          = var.default_deny_nsg_rule_policy.description != null ? var.default_deny_nsg_rule_policy.description : "This policy sets an NSG rule inside an NSG based on parameters."
+#resource "azurerm_management_group_policy_assignment" "create_default_deny_nsg_rule_assignment" {
+#  count                = var.create_default_deny_nsg_rule_policy.deploy_assignment ? 1 : 0
+#  name                 = azurerm_policy_definition.create_default_deny_nsg_rule_policy.name
+#  management_group_id  = var.create_default_deny_nsg_rule_policy.management_group_id != null ? var.create_default_deny_nsg_rule_policy.management_group_id : (var.attempt_read_tenant_root_group ? data.azurerm_management_group.tenant_root_group[0].id : null)
+#  policy_definition_id = azurerm_policy_definition.create_default_deny_nsg_rule_policy.id
+#  enforce              = var.create_default_deny_nsg_rule_policy.enforce != null ? var.create_default_deny_nsg_rule_policy.enforce : true
+#  display_name         = azurerm_policy_definition.create_default_deny_nsg_rule_policy.display_name
+#  description          = var.create_default_deny_nsg_rule_policy.description != null ? var.create_default_deny_nsg_rule_policy.description : "This policy sets an NSG rule inside an NSG based on parameters."
 #
 #  non_compliance_message {
-#    content = var.default_deny_nsg_rule_policy.non_compliance_message != null ? var.default_deny_nsg_rule_policy.non_compliance_message : "PlatformPolicyInfo: The NSG you have tried to deploy has been restricted by ${azurerm_policy_definition.default_deny_nsg_rule_policy.display_name} policy. This policy ensures an NSG rule is deployed. Please contact your administrator for assistance."
+#    content = var.create_default_deny_nsg_rule_policy.non_compliance_message != null ? var.create_default_deny_nsg_rule_policy.non_compliance_message : "PlatformPolicyInfo: The NSG you have tried to deploy has been restricted by ${azurerm_policy_definition.create_default_deny_nsg_rule_policy.display_name} policy. This policy ensures an NSG rule is deployed. Please contact your administrator for assistance."
 #  }
 #
 #  parameters = jsonencode({
 #    "name" = {
-#      "value" = var.default_deny_nsg_rule_policy.nsg_rule_name
+#      "value" = var.create_default_deny_nsg_rule_policy.nsg_rule_name
 #    }
 #    "protocol" = {
-#      "value" = var.default_deny_nsg_rule_policy.protocol
+#      "value" = var.create_default_deny_nsg_rule_policy.protocol
 #    }
 #    "access" = {
-#      "value" = var.default_deny_nsg_rule_policy.access
+#      "value" = var.create_default_deny_nsg_rule_policy.access
 #    }
 #    "priority" = {
-#      "value" = var.default_deny_nsg_rule_policy.priority
+#      "value" = var.create_default_deny_nsg_rule_policy.priority
 #    }
 #    "direction" = {
-#      "value" = var.default_deny_nsg_rule_policy.direction
+#      "value" = var.create_default_deny_nsg_rule_policy.direction
 #    }
 #    "sourcePortRanges" = {
-#      "value" = var.default_deny_nsg_rule_policy.source_port_ranges
+#      "value" = var.create_default_deny_nsg_rule_policy.source_port_ranges
 #    }
 #    "destinationPortRanges" = {
-#      "value" = var.default_deny_nsg_rule_policy.destination_port_ranges
+#      "value" = var.create_default_deny_nsg_rule_policy.destination_port_ranges
 #    }
 #    "sourceAddressPrefixes" = {
-#      "value" = var.default_deny_nsg_rule_policy.source_address_prefixes
+#      "value" = var.create_default_deny_nsg_rule_policy.source_address_prefixes
 #    }
 #    "destinationAddressPrefixes" = {
-#      "value" = var.default_deny_nsg_rule_policy.destination_address_prefixes
+#      "value" = var.create_default_deny_nsg_rule_policy.destination_address_prefixes
 #    }
 #    "effect" = {
-#      "value" = var.default_deny_nsg_rule_policy.effect
+#      "value" = var.create_default_deny_nsg_rule_policy.effect
 #    }
 #  })
 #}

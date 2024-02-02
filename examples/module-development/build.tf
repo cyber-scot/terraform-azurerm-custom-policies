@@ -61,7 +61,7 @@ module "custom_policies" {
     ]
   }
 
-  default_deny_nsg_rule_policy = {
+  create_default_deny_nsg_rule_policy = {
     deploy_assignment = true
     effect            = "Append"
   }

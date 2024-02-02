@@ -27,10 +27,10 @@ variable "attempt_read_tenant_root_group" {
   description = "Whether the module should attempt to read the tenant root group, your SPN may not have permissions"
 }
 
-variable "default_deny_nsg_rule_policy" {
+variable "create_default_deny_nsg_rule_policy" {
   description = "Configuration for default deny NSG rule deployment policy"
   type = object({
-    name                         = optional(string, "nsg-default-deny")
+    name                         = optional(string, "deploy-nsg-default-deny")
     deploy_assignment            = optional(bool, true)
     nsg_rule_name                = optional(string, "DenyAnyInbound")
     management_group_id          = optional(string)
@@ -55,15 +55,17 @@ variable "deploy_default_deny_nsg_rule_policy" {
     name                         = optional(string, "append-nsg-default-deny1")
     deploy_assignment            = optional(bool, true)
     nsg_rule_name                = optional(string, "DenyAnyInbound")
-    nsg_rule_description         = optional(string)
+    attempt_role_assignment      = optional(bool, true)
+    nsg_rule_description         = optional(string, "Default deny rule")
     management_group_id          = optional(string)
     enforce                      = optional(bool, true)
     non_compliance_message       = optional(string)
+    role_definition_id           = optional(list(string), ["/providers/Microsoft.Authorization/roleDefinitions/4d97b98b-1d4f-4787-a291-c67834d212e7"])
+    location                     = optional(string, "uksouth")
     description                  = optional(string)
     effect                       = optional(string, "Append")
     protocol                     = optional(string, "*")
     access                       = optional(string, "Deny")
-    name_suffix                  = optional(string, "*")
     priority                     = optional(string, "4096")
     direction                    = optional(string, "Inbound")
     source_port_ranges           = optional(list(string), ["*"])
