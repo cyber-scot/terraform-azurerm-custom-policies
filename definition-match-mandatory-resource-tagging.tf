@@ -27,7 +27,7 @@ resource "azurerm_policy_definition" "match_mandatory_resource_tagging_policy" {
   name                = local.match_mandatory_resource_tag_name_hash
   policy_type         = "Custom"
   mode                = "Indexed"
-  display_name        = "${var.policy_prefix}  - Mandatory Tags"
+  display_name        = "${var.policy_prefix}  - Mandatory Resource Tags"
   description         = "This policy enforces mandatory tags on resources with a match pattern."
   management_group_id = var.match_mandatory_resource_tagging_policy.management_group_id != null ? var.match_mandatory_resource_tagging_policy.management_group_id : (var.attempt_read_tenant_root_group ? data.azurerm_management_group.tenant_root_group[0].id : null)
 

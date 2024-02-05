@@ -70,6 +70,8 @@ module "custom_policies" {
   deny_nsg_deletion_action_policy = {
     deploy_assignment = true
   }
+
+
 }
 ```
 ## Requirements

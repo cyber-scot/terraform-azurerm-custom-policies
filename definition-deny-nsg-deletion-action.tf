@@ -22,7 +22,7 @@ resource "azurerm_policy_definition" "deny_nsg_deletion_action_policy" {
       "allOf" = [
         {
           "field"  = "type",
-          "equals" = "Microsoft.Network/networkSecurityGroups/securityRules"
+          "equals" = "Microsoft.Network/networkSecurityGroups"
         },
       ]
     },

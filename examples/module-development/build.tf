@@ -69,4 +69,9 @@ module "custom_policies" {
   deny_nsg_deletion_action_policy = {
     deploy_assignment = true
   }
+
+  add_resource_lock_to_nsg_policy = {
+    deploy_assignment = true
+    attempt_role_assignment = true
+  }
 }
