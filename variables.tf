@@ -27,29 +27,7 @@ variable "attempt_read_tenant_root_group" {
   description = "Whether the module should attempt to read the tenant root group, your SPN may not have permissions"
 }
 
-variable "create_default_deny_nsg_rule_policy" {
-  description = "Configuration for default deny NSG rule deployment policy"
-  type = object({
-    name                         = optional(string, "deploy-nsg-default-deny")
-    deploy_assignment            = optional(bool, true)
-    nsg_rule_name                = optional(string, "DenyAnyInbound")
-    management_group_id          = optional(string)
-    enforce                      = optional(bool, true)
-    non_compliance_message       = optional(string)
-    description                  = optional(string)
-    effect                       = optional(string, "Append")
-    protocol                     = optional(string, "*")
-    access                       = optional(string, "Deny")
-    priority                     = optional(string, "4096")
-    direction                    = optional(string, "Inbound")
-    source_port_ranges           = optional(list(string), ["*"])
-    destination_port_ranges      = optional(list(string), ["*"])
-    source_address_prefixes      = optional(list(string), ["*"])
-    destination_address_prefixes = optional(list(string), ["*"])
-  })
-}
-
-variable "deny_nsg_rule_deletion_action_policy" {
+variable "deny_nsg_deletion_action_policy" {
   description = "Configuration for DenyAction policy for nsg rules"
   type = object({
     name                    = optional(string, "deny-nsg-rule-delete")
@@ -63,32 +41,6 @@ variable "deny_nsg_rule_deletion_action_policy" {
     description             = optional(string)
   })
 }
-
-variable "deploy_default_deny_nsg_rule_policy" {
-#  description = "Configuration for DeployIfNotExists deny NSG rule deployment policy"
-#  type = object({
-#    name                         = optional(string, "append-nsg-default-deny1")
-#    deploy_assignment            = optional(bool, true)
-#    nsg_rule_name                = optional(string, "DenyAnyInbound")
-#    attempt_role_assignment      = optional(bool, true)
-#    nsg_rule_description         = optional(string, "Default deny rule")
-#    management_group_id          = optional(string)
-#    enforce                      = optional(bool, true)
-#    non_compliance_message       = optional(string)
-#    role_definition_id           = optional(list(string), ["/providers/Microsoft.Authorization/roleDefinitions/4d97b98b-1d4f-4787-a291-c67834d212e7"])
-#    location                     = optional(string, "uksouth")
-#    description                  = optional(string)
-#    effect                       = optional(string, "Append")
-#    protocol                     = optional(string, "*")
-#    access                       = optional(string, "Deny")
-#    priority                     = optional(string, "4096")
-#    direction                    = optional(string, "Inbound")
-#    source_port_ranges           = optional(list(string), ["*"])
-#    destination_port_ranges      = optional(list(string), ["*"])
-#    source_address_prefixes      = optional(list(string), ["*"])
-#    destination_address_prefixes = optional(list(string), ["*"])
-#  })
-#}
 
 variable "like_mandatory_resource_tagging_policy" {
   description = "Configuration for the mandatory resource tagging policy for the like"
