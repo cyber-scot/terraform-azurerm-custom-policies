@@ -1,6 +1,6 @@
 ```hcl
 module "custom_policies" {
-  source = "cyber-scot/custom-policies/azurerm"
+  source = "../../"
 
 
   non_privileged_role_restriction_policy = {
@@ -62,6 +62,19 @@ module "custom_policies" {
     ]
   }
 
+  append_default_deny_nsg_rule_policy = {
+    deploy_assignment = true
+    effect            = "Append"
+  }
+
+  deny_nsg_deletion_action_policy = {
+    deploy_assignment = true
+  }
+
+  add_resource_lock_to_nsg_policy = {
+    deploy_assignment       = true
+    attempt_role_assignment = true
+  }
 }
 ```
 ## Requirements
@@ -80,7 +93,7 @@ No requirements.
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_custom_policies"></a> [custom\_policies](#module\_custom\_policies) | cyber-scot/custom-policies/azurerm | n/a |
+| <a name="module_custom_policies"></a> [custom\_policies](#module\_custom\_policies) | ../../ | n/a |
 
 ## Resources
 

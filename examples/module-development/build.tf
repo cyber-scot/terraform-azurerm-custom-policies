@@ -71,7 +71,7 @@ module "custom_policies" {
   }
 
   add_resource_lock_to_nsg_policy = {
-    deploy_assignment = true
+    deploy_assignment       = true
     attempt_role_assignment = true
   }
 }
