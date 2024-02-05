@@ -3,7 +3,6 @@ locals {
   deny_nsg_deletion_action_name_hash   = substr(md5(local.deny_nsg_deletion_action_name_prefix), 0, 12)
 }
 
-
 resource "azurerm_policy_definition" "deny_nsg_deletion_action_policy" {
   name                = local.deny_nsg_deletion_action_name_hash
   policy_type         = "Custom"
