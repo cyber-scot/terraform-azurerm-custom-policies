@@ -18,86 +18,86 @@ resource "azurerm_policy_definition" "add_resource_lock_to_nsg_policy" {
   })
 
   policy_rule = jsonencode({
-      "if" =  {
-        "allOf" =  [
-          {
-            "field" =  "type",
-            "equals" =  "Microsoft.Network/networkSecurityGroups"
-          },
-          {
-            "not" =  {
-              "field" =  "[concat('tags[', parameters('TagOfExclusion'), ']')]",
-              "equals" =  "[parameters('TagValue')]"
+    "if" = {
+      "allOf" = [
+        {
+          "field"  = "type",
+          "equals" = "Microsoft.Network/networkSecurityGroups"
+        },
+        {
+          "not" = {
+            "field"  = "[concat('tags[', parameters('TagOfExclusion'), ']')]",
+            "equals" = "[parameters('TagValue')]"
+          }
+        }
+      ]
+    },
+    "then" = {
+      "effect" = "[parameters('effect')]",
+      "details" = {
+        "type"            = "Microsoft.Authorization/locks",
+        "evaluationDelay" = "AfterProvisioning",
+        "existenceCondition" = {
+          "field"  = "Microsoft.Authorization/locks/level",
+          "equals" = "CanNotDelete"
+        },
+        "deployment" = {
+          "properties" = {
+            "mode" = "incremental",
+            "template" = {
+              "$schema"        = "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+              "contentVersion" = "1.0.0.0",
+              "resources" = [
+                {
+                  "name"       = "Auto locked by policy",
+                  "type"       = "Microsoft.Authorization/locks",
+                  "apiVersion" = "2020-05-01",
+                  "properties" = {
+                    "level" = "CanNotDelete",
+                    "notes" = "This lock was deployed automatically by Azure Policy to prevent the resource group and its containing resources from accidental deletion."
+                  }
+                }
+              ]
             }
           }
+        },
+        "roleDefinitionIds" = [
+          var.add_resource_lock_to_nsg_policy.role_definition_id
         ]
-      },
-      "then" =  {
-        "effect" =  "[parameters('effect')]",
-        "details" =  {
-          "type" =  "Microsoft.Authorization/locks",
-          "evaluationDelay" =  "AfterProvisioning",
-          "existenceCondition" =  {
-            "field" =  "Microsoft.Authorization/locks/level",
-            "equals" =  "CanNotDelete"
-          },
-          "deployment" =  {
-            "properties" =  {
-              "mode" =  "incremental",
-              "template" =  {
-                "$schema" =  "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
-                "contentVersion" =  "1.0.0.0",
-                "resources" =  [
-                  {
-                    "name" =  "Auto locked by policy",
-                    "type" =  "Microsoft.Authorization/locks",
-                    "apiVersion" =  "2020-05-01",
-                    "properties" =  {
-                      "level" =  "CanNotDelete",
-                      "notes" =  "This lock was deployed automatically by Azure Policy to prevent the resource group and its containing resources from accidental deletion."
-                    }
-                  }
-                ]
-              }
-            }
-          },
-          "roleDefinitionIds" =  [
-            var.add_resource_lock_to_nsg_policy.role_definition_id
-          ]
-        }
       }
+    }
   })
 
   parameters = jsonencode({
-      "TagOfExclusion" =  {
-        "type" =  "String",
-        "metadata" =  {
-          "displayName" =  "Tag of environment to exclude",
-          "description" =  "If there is a need to exclude RGs from the audit based on a tag, you can do so. In this field, define which tag you want to check for it's value."
-        },
-        "defaultValue" =  "SkipResourceLockCreation"
+    "TagOfExclusion" = {
+      "type" = "String",
+      "metadata" = {
+        "displayName" = "Tag of environment to exclude",
+        "description" = "If there is a need to exclude RGs from the audit based on a tag, you can do so. In this field, define which tag you want to check for it's value."
       },
-      "TagValue" =  {
-        "type" =  "String",
-        "metadata" =  {
-          "displayName" =  "Value of the tag for exclusion",
-          "description" =  "If you decided to configure an exclusion, you need to configure a specific value of the tag you defined. Put the tag value for exclusion in this field"
-        },
-        "defaultValue" =  "true"
+      "defaultValue" = "SkipResourceLockCreation"
+    },
+    "TagValue" = {
+      "type" = "String",
+      "metadata" = {
+        "displayName" = "Value of the tag for exclusion",
+        "description" = "If you decided to configure an exclusion, you need to configure a specific value of the tag you defined. Put the tag value for exclusion in this field"
       },
-      "effect" =  {
-        "type" =  "String",
-        "metadata" =  {
-          "displayName" =  "Effect",
-          "description" =  "DeployIfNotExists, AuditIfNotExists or Disabled the execution of the Policy"
-        },
-        "allowedValues" =  [
-          "DeployIfNotExists",
-          "AuditIfNotExists",
-          "Disabled"
-        ],
-        "defaultValue" =  "DeployIfNotExists"
-      }
+      "defaultValue" = "true"
+    },
+    "effect" = {
+      "type" = "String",
+      "metadata" = {
+        "displayName" = "Effect",
+        "description" = "DeployIfNotExists, AuditIfNotExists or Disabled the execution of the Policy"
+      },
+      "allowedValues" = [
+        "DeployIfNotExists",
+        "AuditIfNotExists",
+        "Disabled"
+      ],
+      "defaultValue" = "DeployIfNotExists"
+    }
   })
 }
 
@@ -123,7 +123,7 @@ resource "azurerm_management_group_policy_assignment" "add_resource_lock_to_nsg_
 }
 
 resource "azurerm_role_assignment" "add_resource_lock_to_nsg_assignment" {
-  count                = var.add_resource_lock_to_nsg_policy.attempt_role_assignment == true ? 1 : 0
+  count              = var.add_resource_lock_to_nsg_policy.attempt_role_assignment == true ? 1 : 0
   principal_id       = azurerm_management_group_policy_assignment.add_resource_lock_to_nsg_assignment[0].identity[0].principal_id
   scope              = azurerm_management_group_policy_assignment.add_resource_lock_to_nsg_assignment[0].management_group_id
   role_definition_id = var.add_resource_lock_to_nsg_policy.role_definition_id

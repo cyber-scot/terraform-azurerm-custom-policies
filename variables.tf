@@ -1,3 +1,18 @@
+variable "add_resource_lock_to_nsg_policy" {
+  description = "Configuration for policy which adds a resource lock to all NSGs"
+  type = object({
+    name                    = optional(string, "add-nsg-lock")
+    deploy_assignment       = optional(bool, true)
+    management_group_id     = optional(string)
+    attempt_role_assignment = optional(bool, true)
+    enforce                 = optional(bool, true)
+    location                = optional(string, "uksouth")
+    role_definition_id      = optional(string, "/providers/Microsoft.Authorization/roleDefinitions/8e3af657-a8ff-443c-a75c-2fe8c4bcb635")
+    non_compliance_message  = optional(string)
+    description             = optional(string)
+  })
+}
+
 variable "append_default_deny_nsg_rule_policy" {
   description = "Configuration for append deny NSG rule deployment policy"
   type = object({
@@ -30,28 +45,12 @@ variable "attempt_read_tenant_root_group" {
 variable "deny_nsg_deletion_action_policy" {
   description = "Configuration for DenyAction policy for NSG"
   type = object({
-    name                    = optional(string, "deny-nsg-delete")
-    deploy_assignment       = optional(bool, true)
-    management_group_id     = optional(string)
-    enforce                 = optional(bool, true)
-    non_compliance_message  = optional(string)
-    description             = optional(string)
-  })
-}
-
-
-variable "add_resource_lock_to_nsg_policy" {
-  description = "Configuration for policy which adds a resource lock to all NSGs"
-  type = object({
-    name                    = optional(string, "add-nsg-lock")
-    deploy_assignment       = optional(bool, true)
-    management_group_id     = optional(string)
-    attempt_role_assignment      = optional(bool, true)
-    enforce                 = optional(bool, true)
-    location                = optional(string, "uksouth")
-    role_definition_id      = optional(string, "/providers/Microsoft.Authorization/roleDefinitions/8e3af657-a8ff-443c-a75c-2fe8c4bcb635")
-    non_compliance_message  = optional(string)
-    description             = optional(string)
+    name                   = optional(string, "deny-nsg-delete")
+    deploy_assignment      = optional(bool, true)
+    management_group_id    = optional(string)
+    enforce                = optional(bool, true)
+    non_compliance_message = optional(string)
+    description            = optional(string)
   })
 }
 
