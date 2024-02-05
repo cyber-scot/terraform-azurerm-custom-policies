@@ -71,8 +71,5 @@ module "custom_policies" {
     effect            = "Append"
   }
 
-  deploy_default_deny_nsg_rule_policy = {
-    deploy_assignment = true
-    effect            = "DeployIfNotExists"
-  }
+  deny_nsg_rule_deletion_action_policy = {}
 }
