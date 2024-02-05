@@ -39,7 +39,7 @@ resource "azurerm_policy_definition" "add_resource_lock_to_nsg_policy" {
         "evaluationDelay" = "AfterProvisioning",
         "existenceCondition" = {
           "field"  = "Microsoft.Authorization/locks/level",
-          "equals" = "CanNotDelete"
+          "equals" = "ReadOnly"
         },
         "deployment" = {
           "properties" = {
@@ -53,7 +53,7 @@ resource "azurerm_policy_definition" "add_resource_lock_to_nsg_policy" {
                   "type"       = "Microsoft.Authorization/locks",
                   "apiVersion" = "2020-05-01",
                   "properties" = {
-                    "level" = "CanNotDelete",
+                    "level" = "ReadOnly",
                     "notes" = "This lock was deployed automatically by Azure Policy to prevent the resource group and its containing resources from accidental deletion."
                   }
                 }
